@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "lil-gui";
-import waterVertexShader from "./shaders/water/vertex.glsl";
-import waterFragmentShader from "./shaders/water/fragment.glsl";
+import waterVertexShader from "./shaders/vertexShader.glsl";
+import waterFragmentShader from "./shaders/fragmentShader.glsl";
 
 /**
  * Base
@@ -21,16 +21,16 @@ const scene = new THREE.Scene();
  */
 // Geometry
 const waterGeometry = new THREE.PlaneGeometry(2, 2, 128, 128);
+console.log(waterGeometry);
 
 // Material
 const waterMaterial = new THREE.ShaderMaterial({
   vertexShader: waterVertexShader,
   fragmentShader: waterFragmentShader,
   uniforms: {
-    uTime: { value: 0 },
     uBigWavesElevation: { value: 0.2 },
     uBigWavesFrequency: { value: new THREE.Vector2(4, 1.5) },
-    uBigWavesSpeed: { value: 0.75 },
+    uTime: { value: 0 },
   },
 });
 
@@ -39,29 +39,23 @@ gui
   .add(waterMaterial.uniforms.uBigWavesElevation, "value")
   .min(0)
   .max(1)
-  .step(0.001)
-  .name("elevation");
+  .step(0.02)
+  .name("BigWaveElevation");
 
 gui
   .add(waterMaterial.uniforms.uBigWavesFrequency.value, "x")
   .min(0)
   .max(10)
-  .step(0.001)
-  .name("uBigWavesFrequencyX");
+  .step(0.02)
+  .name("BigWaveFrequencyX");
 
 gui
   .add(waterMaterial.uniforms.uBigWavesFrequency.value, "y")
   .min(0)
   .max(10)
-  .step(0.001)
-  .name("uBigWavesFrequencyY");
+  .step(0.02)
+  .name("BigWaveFrequencyY");
 
-gui
-  .add(waterMaterial.uniforms.uBigWavesSpeed, "value")
-  .min(0)
-  .max(4)
-  .step(0.001)
-  .name("uBigWavesSpeed");
 // Mesh
 const water = new THREE.Mesh(waterGeometry, waterMaterial);
 water.rotation.x = -Math.PI * 0.5;
@@ -122,9 +116,6 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-
-  //   Update Water material
-  waterMaterial.uniforms.uTime.value = elapsedTime;
 
   // Update controls
   controls.update();
