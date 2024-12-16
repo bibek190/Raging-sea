@@ -6,11 +6,14 @@ void main(){
 
 vec4 modelPosition = modelMatrix * vec4(position,1.0);
 
-// Elevation
-float elevation = sin(modelPosition.x * uBigWavesFrequency.x)*
-                  sin(modelPosition.z * uBigWavesFrequency.y)*
-                  uBigWavesElevation;
+float elevation = sin(modelPosition.x  )*uBigWavesElevation;
 modelPosition.y += elevation;
+
+// Elevation
+// float elevation = sin(modelPosition.x * uBigWavesFrequency.x)*
+//                   sin(modelPosition.z * uBigWavesFrequency.y)*
+//                   uBigWavesElevation;
+// modelPosition.y += elevation;
 
 
 

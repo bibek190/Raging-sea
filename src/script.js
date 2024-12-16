@@ -39,7 +39,7 @@ gui
   .add(waterMaterial.uniforms.uBigWavesElevation, "value")
   .min(0)
   .max(1)
-  .step(0.02)
+  .step(0.001)
   .name("BigWaveElevation");
 
 gui
